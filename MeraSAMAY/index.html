@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MeraSAMAY — A premium, ultra-minimal digital clock web app with alarms, time zones, and stunning design.">
+    <title>MeraSAMAY — Premium Digital Clock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Background Blobs -->
+    <div class="bg-animation">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1 class="app-title">Mera<span>SAMAY</span></h1>
+        </header>
+
+        <!-- Main Clock Card -->
+        <main class="clock-card">
+            <!-- Greeting -->
+            <div class="greeting" id="greeting"></div>
+
+            <!-- Clock Display -->
+            <div class="clock-display">
+                <div class="time-group">
+                    <span class="digit" id="h1">0</span>
+                    <span class="digit" id="h2">0</span>
+                </div>
+                <span class="colon" id="colon1">:</span>
+                <div class="time-group">
+                    <span class="digit" id="m1">0</span>
+                    <span class="digit" id="m2">0</span>
+                </div>
+                <span class="colon" id="colon2">:</span>
+                <div class="time-group seconds-group">
+                    <span class="digit digit-sec" id="s1">0</span>
+                    <span class="digit digit-sec" id="s2">0</span>
+                </div>
+                <span class="ampm" id="ampm">AM</span>
+            </div>
+
+            <!-- Date -->
+            <div class="date-display" id="dateDisplay">Sunday, 3 May 2026</div>
+
+            <!-- Timezone label -->
+            <div class="tz-label" id="tzLabel"></div>
+        </main>
+
+        <!-- Controls Section -->
+        <section class="controls-section">
+            <!-- Row 1: Toggles -->
+            <div class="controls-row">
+                <!-- Dark/Light Toggle -->
+                <div class="control-item">
+                    <span class="control-label">🌙 Theme</span>
+                    <label class="toggle-switch" id="themeToggle">
+                        <input type="checkbox" id="themeCheckbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <!-- 12/24h Toggle -->
+                <div class="control-item">
+                    <span class="control-label">🕐 24H</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="formatCheckbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <!-- Sound Toggle -->
+                <div class="control-item">
+                    <span class="control-label">🔊 Tick</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="soundCheckbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Row 2: Timezone -->
+            <div class="controls-row">
+                <div class="control-item wide">
+                    <span class="control-label">🌍 Timezone</span>
+                    <select id="tzSelect" class="tz-select">
+                        <option value="local">Local Time</option>
+                        <option value="America/New_York">New York (EST)</option>
+                        <option value="America/Chicago">Chicago (CST)</option>
+                        <option value="America/Denver">Denver (MST)</option>
+                        <option value="America/Los_Angeles">Los Angeles (PST)</option>
+                        <option value="Europe/London">London (GMT)</option>
+                        <option value="Europe/Paris">Paris (CET)</option>
+                        <option value="Europe/Berlin">Berlin (CET)</option>
+                        <option value="Asia/Dubai">Dubai (GST)</option>
+                        <option value="Asia/Kolkata">India (IST)</option>
+                        <option value="Asia/Shanghai">Shanghai (CST)</option>
+                        <option value="Asia/Tokyo">Tokyo (JST)</option>
+                        <option value="Australia/Sydney">Sydney (AEST)</option>
+                        <option value="Pacific/Auckland">Auckland (NZST)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Row 3: Alarm -->
+            <div class="controls-row">
+                <div class="control-item wide alarm-control">
+                    <span class="control-label">⏰ Alarm</span>
+                    <div class="alarm-group">
+                        <input type="time" id="alarmInput" class="alarm-input">
+                        <button id="alarmSetBtn" class="btn-accent">Set</button>
+                        <button id="alarmClearBtn" class="btn-clear" style="display:none;">Clear</button>
+                    </div>
+                </div>
+            </div>
+            <div class="alarm-status" id="alarmStatus"></div>
+
+            <!-- Fullscreen -->
+            <div class="controls-row">
+                <button id="fullscreenBtn" class="btn-fullscreen">⛶ Fullscreen</button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            &copy; 2026 Made by Sengar Production. All rights reserved.
+        </footer>
+    </div>
+
+    <!-- Alarm Audio (generated via Web Audio API in JS) -->
+    <script src="app.js"></script>
+</body>
+</html>

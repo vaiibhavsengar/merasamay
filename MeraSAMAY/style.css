@@ -1,0 +1,647 @@
+/* ========================================
+   MeraSAMAY — Premium Digital Clock
+   CSS Design System
+   ======================================== */
+
+/* ---------- CSS Variables (Themes) ---------- */
+:root {
+    --font-clock: 'Orbitron', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --accent: #007AFF;
+    --accent-glow: rgba(0, 122, 255, 0.35);
+    --radius: 24px;
+    --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #12121a;
+    --bg-card: rgba(255, 255, 255, 0.06);
+    --bg-card-border: rgba(255, 255, 255, 0.1);
+    --text-primary: #f0f0f5;
+    --text-secondary: rgba(240, 240, 245, 0.55);
+    --text-muted: rgba(240, 240, 245, 0.3);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --toggle-bg: rgba(255,255,255,0.12);
+    --input-bg: rgba(255,255,255,0.08);
+    --input-border: rgba(255,255,255,0.12);
+    --blob-1: rgba(0, 122, 255, 0.15);
+    --blob-2: rgba(100, 50, 255, 0.12);
+    --blob-3: rgba(0, 200, 200, 0.10);
+}
+
+[data-theme="light"] {
+    --bg-primary: #f2f2f7;
+    --bg-secondary: #ffffff;
+    --bg-card: rgba(255, 255, 255, 0.65);
+    --bg-card-border: rgba(0, 0, 0, 0.08);
+    --text-primary: #1c1c1e;
+    --text-secondary: rgba(28, 28, 30, 0.55);
+    --text-muted: rgba(28, 28, 30, 0.3);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --toggle-bg: rgba(0,0,0,0.08);
+    --input-bg: rgba(0,0,0,0.04);
+    --input-border: rgba(0,0,0,0.1);
+    --blob-1: rgba(0, 122, 255, 0.12);
+    --blob-2: rgba(140, 80, 255, 0.10);
+    --blob-3: rgba(0, 200, 180, 0.08);
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background var(--transition), color var(--transition);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ---------- Animated Background Blobs ---------- */
+.bg-animation {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 1;
+    transition: background var(--transition);
+}
+
+.blob-1 {
+    width: 420px;
+    height: 420px;
+    background: var(--blob-1);
+    top: -10%;
+    left: -8%;
+    animation: blobMove1 18s ease-in-out infinite alternate;
+}
+
+.blob-2 {
+    width: 350px;
+    height: 350px;
+    background: var(--blob-2);
+    bottom: -5%;
+    right: -5%;
+    animation: blobMove2 22s ease-in-out infinite alternate;
+}
+
+.blob-3 {
+    width: 280px;
+    height: 280px;
+    background: var(--blob-3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: blobMove3 20s ease-in-out infinite alternate;
+}
+
+@keyframes blobMove1 {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(60px, 80px) scale(1.15); }
+    100% { transform: translate(-30px, 120px) scale(0.95); }
+}
+
+@keyframes blobMove2 {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-70px, -60px) scale(1.1); }
+    100% { transform: translate(40px, -100px) scale(1.05); }
+}
+
+@keyframes blobMove3 {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-40%, -60%) scale(1.2); }
+    100% { transform: translate(-60%, -40%) scale(0.9); }
+}
+
+/* ---------- App Container ---------- */
+.app-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+    padding: 24px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-height: 100vh;
+    justify-content: center;
+}
+
+/* ---------- Header ---------- */
+.app-header {
+    text-align: center;
+}
+
+.app-title {
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    transition: color var(--transition);
+}
+
+.app-title span {
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* ---------- Clock Card (Glassmorphism) ---------- */
+.clock-card {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--bg-card-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: var(--shadow-card);
+    padding: 40px 24px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+/* ---------- Greeting ---------- */
+.greeting {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    transition: color var(--transition);
+    min-height: 1.4em;
+}
+
+/* ---------- Clock Display ---------- */
+.clock-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 2px;
+    user-select: none;
+}
+
+.time-group {
+    display: flex;
+    gap: 2px;
+}
+
+.digit {
+    font-family: var(--font-clock);
+    font-size: 4.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    width: 1.1ch;
+    text-align: center;
+    display: inline-block;
+    transition: color var(--transition);
+    position: relative;
+}
+
+/* Number change animation */
+.digit.flip {
+    animation: digitFlip 0.35s ease;
+}
+
+@keyframes digitFlip {
+    0% { transform: translateY(0); opacity: 1; }
+    40% { transform: translateY(-18%); opacity: 0.3; }
+    60% { transform: translateY(10%); opacity: 0.5; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+.colon {
+    font-family: var(--font-clock);
+    font-size: 3.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 0 2px;
+    transition: opacity 0.3s ease;
+    line-height: 1;
+    position: relative;
+    top: -2px;
+}
+
+.colon.blink {
+    animation: colonBlink 1s step-end infinite;
+}
+
+@keyframes colonBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}
+
+/* Floating seconds effect */
+.seconds-group {
+    position: relative;
+}
+
+.digit-sec {
+    font-size: 2.6rem !important;
+    color: var(--accent) !important;
+    font-weight: 600;
+    opacity: 0.85;
+    position: relative;
+    top: 2px;
+}
+
+.ampm {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-left: 8px;
+    align-self: flex-end;
+    margin-bottom: 10px;
+    transition: opacity var(--transition);
+}
+
+.ampm.hidden { display: none; }
+
+/* ---------- Date ---------- */
+.date-display {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+    transition: color var(--transition);
+}
+
+.tz-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    min-height: 1em;
+    transition: color var(--transition);
+}
+
+/* ---------- Controls Section ---------- */
+.controls-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.controls-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.control-item {
+    background: var(--bg-card);
+    border: 1px solid var(--bg-card-border);
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background var(--transition), border-color var(--transition);
+    flex: 1;
+    min-width: 120px;
+    justify-content: space-between;
+}
+
+.control-item.wide {
+    flex: 1 1 100%;
+}
+
+.control-label {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    transition: color var(--transition);
+}
+
+/* ---------- Toggle Switch ---------- */
+.toggle-switch {
+    position: relative;
+    width: 44px;
+    height: 26px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: var(--toggle-bg);
+    border-radius: 26px;
+    transition: background var(--transition);
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform var(--transition);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: var(--accent);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(18px);
+}
+
+/* ---------- Timezone Select ---------- */
+.tz-select {
+    flex: 1;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    outline: none;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition), color var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%23888' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+}
+
+.tz-select:focus {
+    border-color: var(--accent);
+}
+
+/* ---------- Alarm ---------- */
+.alarm-control {
+    flex-wrap: wrap;
+}
+
+.alarm-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.alarm-input {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    outline: none;
+    transition: background var(--transition), border-color var(--transition), color var(--transition);
+    width: 120px;
+}
+
+.alarm-input:focus {
+    border-color: var(--accent);
+}
+
+/* Ensure time input color-scheme matches theme */
+[data-theme="dark"] .alarm-input { color-scheme: dark; }
+[data-theme="light"] .alarm-input { color-scheme: light; }
+
+.btn-accent {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 18px;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.btn-accent:hover { opacity: 0.85; transform: scale(1.04); }
+.btn-accent:active { transform: scale(0.97); }
+
+.btn-clear {
+    background: transparent;
+    color: #ff453a;
+    border: 1px solid rgba(255, 69, 58, 0.3);
+    border-radius: 12px;
+    padding: 8px 14px;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.btn-clear:hover { opacity: 0.8; }
+
+.alarm-status {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 500;
+    min-height: 1.2em;
+    transition: color var(--transition);
+}
+
+/* ---------- Fullscreen Button ---------- */
+.btn-fullscreen {
+    background: var(--bg-card);
+    border: 1px solid var(--bg-card-border);
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 12px 24px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition), transform 0.2s, border-color var(--transition);
+    width: 100%;
+}
+
+.btn-fullscreen:hover {
+    color: var(--accent);
+    transform: scale(1.02);
+}
+
+/* ---------- Footer ---------- */
+.app-footer {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-align: center;
+    transition: color var(--transition);
+}
+
+/* ---------- Alarm Ring Overlay ---------- */
+.alarm-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    animation: fadeIn 0.3s ease;
+}
+
+.alarm-overlay .alarm-ring-icon {
+    font-size: 4rem;
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+.alarm-overlay .alarm-ring-text {
+    font-family: var(--font-clock);
+    font-size: 1.8rem;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.alarm-overlay .btn-dismiss {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    padding: 14px 40px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.alarm-overlay .btn-dismiss:hover { transform: scale(1.05); }
+
+@keyframes shake {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-12deg); }
+    75% { transform: rotate(12deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+    .digit { font-size: 3rem; }
+    .digit-sec { font-size: 1.8rem !important; }
+    .colon { font-size: 2.6rem; }
+    .clock-card { padding: 28px 16px 24px; }
+    .app-container { padding: 16px 10px; gap: 14px; }
+    .control-item { padding: 10px 12px; min-width: 100px; }
+    .blob-1 { width: 260px; height: 260px; }
+    .blob-2 { width: 200px; height: 200px; }
+    .blob-3 { width: 160px; height: 160px; }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .digit { font-size: 3.8rem; }
+    .digit-sec { font-size: 2.2rem !important; }
+}
+
+/* Fullscreen styling */
+body:fullscreen .app-container,
+body:-webkit-full-screen .app-container {
+    justify-content: center;
+}
+
+body:fullscreen .controls-section,
+body:-webkit-full-screen .controls-section,
+body:fullscreen .app-footer,
+body:-webkit-full-screen .app-footer,
+body:fullscreen .app-header,
+body:-webkit-full-screen .app-header {
+    display: none;
+}
+
+body:fullscreen .clock-card,
+body:-webkit-full-screen .clock-card {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+
+body:fullscreen .digit,
+body:-webkit-full-screen .digit {
+    font-size: 7rem;
+}
+
+body:fullscreen .digit-sec,
+body:-webkit-full-screen .digit-sec {
+    font-size: 4.2rem !important;
+}
+
+body:fullscreen .colon,
+body:-webkit-full-screen .colon {
+    font-size: 6rem;
+}
+
+body:fullscreen .greeting,
+body:-webkit-full-screen .greeting {
+    font-size: 1.4rem;
+}
+
+body:fullscreen .date-display,
+body:-webkit-full-screen .date-display {
+    font-size: 1.2rem;
+}
+
+/* Subtle glow on clock digits */
+[data-theme="dark"] .digit {
+    text-shadow: 0 0 20px var(--accent-glow);
+}
