@@ -1,4 +1,4 @@
-# 🕒 MeraSamay - Digital Clock
+# 🕒 Realtime Digital Clock
 
 **MeraSamay** is a sleek and responsive digital clock application built using **HTML, CSS, and JavaScript**. It displays the current time in real time with a clean interface, providing users with an accurate and visually appealing way to keep track of time.
 
