@@ -49,4 +49,4 @@
 
 ## 📜 License
 
-This project was created for educational and learning purposes.
+This project was created for educational and learning purposes shared by Sengar Industries & Production
